@@ -5,38 +5,67 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        #container{
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
+
+    <div id="container">
+        <h1>LONG DIVISION ALGORITHM</h1>
+        <p>Press Ctrl + Shift + I</p>
+    </div>
+
     <script>
         //get user input
-        let user_dividend = 487;
-        let user_divisor = 32;
+        let user_dividend = prompt("Enter Dividend: ");
+        user_dividend = Number(user_dividend);
+        let user_divisor = prompt("Enter Divisor: ");
+        user_divisor = Number(user_divisor);
+
         let quotient;
         let remainder;
+
+        // counts the values after the decimal 
+        let decimal_values_counter = 0;
 
         //print out initial values
         console.log("DIVIDEND: ",user_dividend);
         console.log("DIVISOR: ", user_divisor);
 
        
-
+        //execute division
        function executeLongDivision(){
 
-        //get return value from quotient
-        let results = getQuotient(user_dividend, user_divisor);
-        console.log("Initial results: ", results)
+            //get return value from quotient fnx
+            let results = getQuotient(user_dividend, user_divisor);
 
             if(user_dividend > user_divisor){
 
                 quotient = results.q;
-                remainder = results.r;
+                remainder = results.r;            
 
-                console.log("Current quotient: ", quotient);
-                console.log("Current remainder: ", remainder);
+                //re-assign value to user dividend variable
                 user_dividend = quotient;
-                executeLongDivision();
+
+
+                //recursive fnx
+                if(results.r !== 0){
+                    // executeLongDivision();
+                }
+
             }
-            else if(user_dividend < user_divisor && remainder > 0){
+            // if(user_dividend < user_divisor && remainder > 0){
                 //convert quotient to string
                 console.log("Add . to current quotient ");
                 
@@ -59,40 +88,55 @@
                     console.log("updated dividend value", user_dividend);
 
                     // executeLongDivision();
+                    // return;
 
                     
 
                     
-                }
+                // }
                 
                 
+
                 if(quotient[quotient.length - 1] === "."){
+                    
+                    while(decimal_values_counter < 3)
+                    {
+                        results = getQuotient(user_dividend, user_divisor);
+                        // console.log(results);
 
-
-                    results = getQuotient(user_dividend, user_divisor);
-                    console.log(results);
-
-                    quotient = String(quotient);
-
-                    // update quotient after the decimal points
-                    quotient = `${quotient}${results.q}`;
-                    console.log("Quotient is now: " , quotient);
+                        quotient = String(quotient);
 
                     
-                    console.log("quotient has a dot");
-                    console.log("Add recent quotient after the decimal place")
-                    console.log("Remainder is now: ", results.r);
+                        
+                        console.log("quotient has a decimal");
+                        console.log("Add recent quotient after the decimal place")
 
-                    console.log("Add 0 at the right of remainder.");
+                        // update quotient after the decimal points
+                        quotient = `${quotient}${results.q}`;
+                        console.log("Quotient is now: " , quotient);
+                        console.log("Remainder is now: ", results.r);
 
-                    // reassign value to dividend 
-                    user_dividend = results.r * 10;
-                    console.log("updated dividend value", user_dividend);
+                        decimal_values_counter++;
+                        console.log('Decimal value: ', decimal_values_counter);
 
-                    // executeLongDivision();
+                        console.log("Add 0 at the right of remainder.");
+
+                        // reassign value to dividend 
+                        user_dividend = results.r * 10;
+                        console.log("updated dividend value", user_dividend);
+
+                        if(results.r !== 0){
+                        // executeLongDivision();
+                        } 
+                    }
+                    
                 }
 
                 // executeLongDivision();
+            }
+
+            if(decimal_values_counter === 3 || results.r === 0){
+                        console.log("Found Quotient: ", quotient);
             }
 
             
@@ -117,18 +161,21 @@
                     counter++;
 
                 }
-                while(dividend > divisor);
+                while(dividend >= divisor)
+                
 
                 //assign value to quotient
                 current_quotient = counter;
+                // console.log(quotient);
 
                 return({q:current_quotient,r:current_remainder});
             }
        }
 
+
        //call fnx
        executeLongDivision();
-       getQuotient(user_dividend,user_divisor);
+
     </script>
 </body>
 </html>
