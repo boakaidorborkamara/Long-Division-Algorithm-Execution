@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //get user input
+        let user_dividend = 487;
+        let user_divisor = 32;
+        let quotient;
+        let remainder;
+
+        //print out initial values
+        console.log("DIVIDEND: ",user_dividend);
+        console.log("DIVISOR: ", user_divisor);
+
+       
+
+       function executeLongDivision(){
+
+        //get return value from quotient
+        let results = getQuotient(user_dividend, user_divisor);
+        console.log("Initial results: ", results)
+
+            if(user_dividend > user_divisor){
+
+                quotient = results.q;
+                remainder = results.r;
+
+                console.log("Current quotient: ", quotient);
+                console.log("Current remainder: ", remainder);
+                user_dividend = quotient;
+                executeLongDivision();
+            }
+            else if(user_dividend < user_divisor && remainder > 0){
+                //convert quotient to string
+                console.log("Add . to current quotient ");
+                
+
+                // check if the last element is not a decimal point
+                if(quotient[quotient.length - 1] !== "."){
+
+                    quotient = String(quotient);
+
+                    // add decimal to the current quotient 
+                    quotient = `${quotient}.`;
+                    console.log("Quotient is now: " , quotient);
+
+                    console.log("Add 0 at the right of remainder.");
+                    remainder = remainder * 10;
+                    console.log("Remainder is now: ", remainder);
+
+                    // reassign value to dividend 
+                    user_dividend = remainder;
+                    console.log("updated dividend value", user_dividend);
+
+                    // executeLongDivision();
+
+                    
+
+                    
+                }
+                
+                
+                if(quotient[quotient.length - 1] === "."){
+
+
+                    results = getQuotient(user_dividend, user_divisor);
+                    console.log(results);
+
+                    quotient = String(quotient);
+
+                    // update quotient after the decimal points
+                    quotient = `${quotient}${results.q}`;
+                    console.log("Quotient is now: " , quotient);
+
+                    
+                    console.log("quotient has a dot");
+                    console.log("Add recent quotient after the decimal place")
+                    console.log("Remainder is now: ", results.r);
+
+                    console.log("Add 0 at the right of remainder.");
+
+                    // reassign value to dividend 
+                    user_dividend = results.r * 10;
+                    console.log("updated dividend value", user_dividend);
+
+                    // executeLongDivision();
+                }
+
+                // executeLongDivision();
+            }
+
+            
+       }
+
+
+       //This function take two numbers and return the quotient
+       function getQuotient(dividend, divisor){
+            let counter = 0;
+            let current_quotient;
+            let current_remainder;
+
+            //check if dividend is greater than or equal to divisor
+            if(dividend >= divisor){
+                
+                //execute division
+                do{
+
+                    current_remainder = dividend - divisor;
+                    // update dividend value 
+                    dividend = dividend - divisor;
+                    counter++;
+
+                }
+                while(dividend > divisor);
+
+                //assign value to quotient
+                current_quotient = counter;
+
+                return({q:current_quotient,r:current_remainder});
+            }
+       }
+
+       //call fnx
+       executeLongDivision();
+       getQuotient(user_dividend,user_divisor);
+    </script>
+</body>
+</html>
